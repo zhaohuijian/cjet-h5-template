@@ -20,6 +20,11 @@
     "react-dom": "^16.12.0",
     "typescript": "^3.7.5"
   },
+  "peerDependenciesMeta": {
+    "webpack": {
+      "optional": true
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
