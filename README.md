@@ -7,6 +7,8 @@
 - 使用cssModule。
 - 使用typescript。
 - 集成PWA。
+- 使用svg symbol图标解决方案
+- 支持antd组件主题定制
 
 ## 快速开始
 
