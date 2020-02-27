@@ -18,6 +18,9 @@ class App extends Component {
         <p>
           <SvgIcon iconName="antd-mobile" /> 基于antd mobile基础组件库
         </p>
+        <p className={styles['theme-icon']}>
+          <SvgIcon iconName="theme" fill="#ff0000" /> 支持antd mobile组件主题定制
+        </p>
         <p className={styles["App-intro"]}>
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
