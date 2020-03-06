@@ -7,7 +7,7 @@ module.exports = {
        * https://github.com/ant-design/ant-design-mobile/blob/master/components/style/themes/default.less
        */
       modifyVars: {
-        'brand-primary': '#e76a58',                         // 全局主色
+        'brand-primary': '#ff8c42',                         // 全局主色
       }
     }
   }
