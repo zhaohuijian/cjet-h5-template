@@ -22,7 +22,7 @@ cd chanjet-mobile
 
 npm run dev #开发环境
 
-npm run build #生产环境
+npm run build #生产构建
 ```
 
 ## 使用移动端 viewport 适配方案
