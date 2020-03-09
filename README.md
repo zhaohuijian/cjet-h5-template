@@ -4,13 +4,14 @@
 
 ### 基本特性：
 
-- 基于 antdMobile 组件库。
-- 使用 cssModule。
-- 使用 typescript。
+- 开发 H5 企业级应用的标准化模板
+- 基于 antdMobile 基础组件库
+- 使用 Less 及 cssModule 编写样式
+- 使用 typescript
 - 使用 svg symbol 图标解决方案
-- 集成 PWA。
+- 集成 PWA
 - 支持 antd 组件主题定制
-- 集成工程化解决方案。
+- 集成工程化开发及构建的最佳实践
 
 ## 快速开始
 
