@@ -102,11 +102,11 @@ module.exports = {
     "postcss-pxtorem": {
       rootValue: 32, //结果为：设计稿元素尺寸/32,最终页面会换算成 10rem
       unitPrecision: 5, //允许REM单位增长到的十进制数
-      propList: ["*"], //可以从px更改为rem的属性
+      propList: ['*','!font*'], //可以从px更改为rem的属性,字体相关属性不转换
       selectorBlackList: [], //要忽略的选择器
       replace: true, //替换包含rems的规则，而不是添加fallback
       mediaQuery: false, //允许在媒体查询中转换px
-      minPixelValue: 0 //设置要替换的最小像素值
+      minPixelValue: 2 //设置要替换的最小像素值
     }
   }
 };
@@ -115,7 +115,7 @@ module.exports = {
 - 新建`rem.js` 并在入口`index.js`中引入
 
 ```js
-const baseSize = 32; //与 rootValue大小一致
+const baseSize = 32;
 // 设置 rem 函数
 function setRem() {
   // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
@@ -130,6 +130,21 @@ setRem();
 window.onresize = function() {
   setRem();
 };
+```
+
+Tip: 使用大写可以忽略项目中无需转换的属性值
+
+```css
+// `px` is converted to `rem`
+.convert {
+    font-size: 16px; // converted to 1rem
+}
+ 
+// `Px` or `PX` is ignored by `postcss-pxtorem` but still accepted by browsers
+.ignore {
+    border: 1Px solid; // ignored
+    border-width: 2PX; // ignored
+}
 ```
 
 ## License
