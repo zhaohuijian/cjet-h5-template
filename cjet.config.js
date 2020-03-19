@@ -8,7 +8,8 @@ module.exports = {
        */
       modifyVars: {
         'brand-primary': '#ff8c42',                         // 全局主色
-      }
+      },
+      javascriptEnabled: true
     }
   }
 }
