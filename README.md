@@ -64,7 +64,7 @@ module.exports = {
 };
 ```
 
-- 在html页面模板中添加兼容方案
+- 在 html 页面模板中添加兼容方案
 
 可以直接使用阿里 CDN 或是参考：`https://www.npmjs.com/package/viewport-units-buggyfill`。
 
@@ -102,7 +102,7 @@ module.exports = {
     "postcss-pxtorem": {
       rootValue: 32, //结果为：设计稿元素尺寸/32,最终页面会换算成 10rem
       unitPrecision: 5, //允许REM单位增长到的十进制数
-      propList: ['*','!font*'], //可以从px更改为rem的属性,字体相关属性不转换
+      propList: ["*", "!font*"], //可以从px更改为rem的属性,字体相关属性不转换
       selectorBlackList: [], //要忽略的选择器
       replace: true, //替换包含rems的规则，而不是添加fallback
       mediaQuery: false, //允许在媒体查询中转换px
@@ -137,15 +137,77 @@ Tip: 使用大写可以忽略项目中无需转换的属性值
 ```css
 // `px` is converted to `rem`
 .convert {
-    font-size: 16px; // converted to 1rem
+  font-size: 16px; // converted to 1rem
 }
- 
+
 // `Px` or `PX` is ignored by `postcss-pxtorem` but still accepted by browsers
 .ignore {
-    border: 1Px solid; // ignored
-    border-width: 2PX; // ignored
+  border: 1px solid; // ignored
+  border-width: 2px; // ignored
 }
 ```
+
+## 使用 PWA（渐进式 WEB 应用程序）
+
+已集成业内开发一流的 [Progressive Web App](https://web.dev/progressive-web-apps/) 的最佳实践，项目中包含一个`src/serviceWroker.js`文件，用于开发渐进式应用程序，在应用程序入口脚本（`src/index.tsx`）默认状态是未注册，如果要使用 PWA，需要在应用入口将 `serviceWorker.unregister()` 更改为 `serviceWorker.register()`。
+
+离线优先的 Progressive Web Apps（渐进式 Web 应用程序）比传统网页更快，更可靠，并提供了很好的移动体验：
+
+- 无论网络连接如何（例如 2G 或 3G），所有静态站点资源都会被缓存，以便你的页面在后续访问中快速加载。更新将在后台下载。
+- 无论网络状态如何，即使离线，你的应用也能正常运行。这意味着你的用户将能够在 1 万英尺的高空和地铁上使用你的应用程序。
+- 在移动设备上，你的应用可以直接添加到用户的主屏幕，应用图标和所有内容。这消除了对 app 商店的需求。
+
+本项目使用 cjet 作为工程构建工具，工程框架已集成[workbox-webpack-plugin](https://github.com/GoogleChrome/workbox)，它将负责生成 service worker 文件，该文件将自动预先缓存所有本地资源，并在部署更新时使其保持最新。 service worker 将使用 缓存优先策略 来处理对本地资源的所有请求，包括 HTML 的 导航请求，确保你的 Web 应用程序始终保持快速，即使在缓慢或不可靠的网络上也是如此。
+
+可以通过`cjet.config.js`文件对`workbox-webpack-plugin`进行更多高级配置：
+
+```js
+//cjet.config.js
+
+module.exports = {
+  /**
+   * PWA的workbox-webpack-plugin配置
+   * More info see: https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
+   */
+  pwa: {
+    mode: "GenerateSW", // GenerateSW or InjectManifest
+    options: {
+      clientsClaim: true,
+      exclude: [/\.map$/, /asset-manifest\.json$/],
+      importWorkboxFrom: "cdn",
+      navigateFallback: "/index.html",
+      navigateFallbackBlacklist: [
+        // Exclude URLs starting with /_, as they're likely an API call
+        new RegExp("^/_"),
+        // Exclude any URLs whose last part seems to be a file extension
+        // as they're likely a resource and not a SPA route.
+        // URLs containing a "?" character won't be blacklisted as they're likely
+        // a route with query params (e.g. auth callbacks).
+        new RegExp("/[^/?]+\\.[^/]+$")
+      ]
+    }
+  }
+};
+```
+
+**开发渐进式应用程序（PWA）的注意事项**
+
+开发渐进式 WEB 应用程序使调试部署更具挑战性，如果决定选择加入 service worker 注册，需考虑以下因素：
+
+- 初始缓存完成后，[service worker 生命周期](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle) 控制何时更新的内容最终显示给用户。默认行为是保守地使更新的 service worker 保持 ["waiting"](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#waiting) 状态。这意味着用户最终会看到旧内容，直到他们关闭（重新加载）现有的打开标签。
+- 用户并不总是熟悉离线优先 Web 应用程序。[让用户知道 service worker 何时完成填充缓存](https://developers.google.com/web/fundamentals/instant-and-offline/offline-ux)（显示 "This web app works offline!（此 Web 应用程序脱机工作！）"消息），并让他们知道 service worker 何时获取可用的最新更新可能很有用。
+- service worker [需要 HTTPS](https://developers.google.com/web/fundamentals/primers/service-workers#you_need_https)，但为了便于本地测试，该策略[不适用于 localhost](https://stackoverflow.com/questions/34160509/options-for-testing-service-workers-via-http/34161385#34161385) 。如果你的生产 Web 服务器不支持 HTTPS ，则服务工作者注册将失败，但你的 Web 应用程序的其余部分仍将保持正常运行。
+- service worker 仅在 生产环境 中启用，建议你不要在开发环境中启用离线优先 service worker 程序，因为它可能会导致使用以前缓存的资源时无效，并且不包括你在本地进行的最新更改。
+- 如果 需要 在本地测试离线优先 service worker ，请构建应用程序（使用 `yarn build` ）并从构建目录运行简单的 http 服务器。
+- 默认情况下，生成的 service worker 文件不会拦截或缓存任何跨源资源，如 HTTP API 请求，图片或从其他域名加载的嵌入。
+
+**渐进式 Web 应用程序元 Metadata**
+
+默认配置包含的 Web 应用程序 manifest 位于 `public/manifest.json` ，你可以使用特定于 Web 应用程序的详细信息进行自定义。
+
+当用户在 Android 上使用 Chrome 或 Firefox 将网络应用添加到其主屏幕时，`manifest.json` 中的元数据可以设置显示网络应用时需要使用的图标，名称和品牌颜色（branding colors）。 [Web App Manifest](https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/) 指南 提供了有关每个字段的含义以及你的自定义将如何影响用户体验的更多信息。
+
+已添加到主屏幕的渐进式 Web 应用程序将加载更快，并在激活 service worker 时脱机工作。话虽如此，无论你是否选择性加入 service worker 注册，Web 应用程序清单中的元数据仍将被使用。
 
 ## License
 
