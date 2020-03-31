@@ -4,7 +4,6 @@ import { NavBar, Icon } from 'antd-mobile';
 class navBarComponent extends React.Component {
   onLeftClick = () => {
     const { history } = this.props
-    // history.push('/')
     history.goBack();
   }
   render() {

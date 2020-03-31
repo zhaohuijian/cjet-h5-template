@@ -46,7 +46,7 @@ class App extends Component {
           </List>
           <WhiteSpace size="lg" />
           <Button
-            onClick={() => (window.location.href = "./main.html")}
+            onClick={() => (window.location.href = "./antd.html")}
             type="primary"
           >
             查看组件库示例

@@ -28,7 +28,6 @@ const TransitionRoutes = withRouter(({ location, history }) => (
         timeout={500}
         key={location.pathname}
       >
-
         <Switch location={location}>
           {routes.map((route, idx) => {
             return route.component ? (
@@ -42,7 +41,6 @@ const TransitionRoutes = withRouter(({ location, history }) => (
             ) : null;
           })}
         </Switch>
-
       </CSSTransition>
     </TransitionGroup>
   </Suspense>
