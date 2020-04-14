@@ -46,10 +46,13 @@ class App extends Component {
           </List>
           <WhiteSpace size="lg" />
           <Button
-            onClick={() => (window.location.href = "./antd.html")}
+            onClick={() =>
+              (window.location.href =
+                "https://github.com/chanjet-fe/cjet-h5-template")
+            }
             type="primary"
           >
-            查看组件库示例
+            查看更多信息
           </Button>
         </div>
       </div>

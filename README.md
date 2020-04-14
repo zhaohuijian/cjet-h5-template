@@ -2,7 +2,7 @@
     <img width="250" src="https://user-images.githubusercontent.com/9346030/77044974-53b06b80-69fb-11ea-89ad-fab16eddd48f.png">
 </p>
 
-# cjet-h5-template（企业级 H5 应用开发框架-基础版）
+# cjet-h5-template（基础版）
 
 基于 antDesign Mobile 组件库，零配置、快速开发、构建移动端 H5 的企业级应用。
 
