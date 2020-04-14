@@ -2,7 +2,7 @@
     <img width="250" src="https://user-images.githubusercontent.com/9346030/77044974-53b06b80-69fb-11ea-89ad-fab16eddd48f.png">
 </p>
 
-# cjet-h5-template
+# cjet-h5-template（企业级 H5 应用开发框架-基础版）
 
 基于 antDesign Mobile 组件库，零配置、快速开发、构建移动端 H5 的企业级应用。
 
@@ -16,10 +16,6 @@
 - 集成 PWA
 - 支持 antd 组件主题定制
 - 集成工程化开发及构建的最佳实践
-- 集成组件化开发的最佳实践
-- 集成路由配置的最佳实践
-- 集成状态管理的最佳实践
-- 集成代码分割及按需加载的最佳实践
 
 ## 快速开始
 
@@ -32,22 +28,6 @@ npm run dev #开发环境
 
 npm run build #生产构建
 ```
-
-## 组件化开发的最佳实践
-
-待续...
-
-## 路由配置的最佳实践
-
-待续...
-
-## 状态管理的最佳实践
-
-待续...
-
-## 代码分割及按需加载的最佳实践
-
-待续...
 
 ## 使用移动端 viewport(VW,VH) 适配方案
 
@@ -67,7 +47,7 @@ module.exports = {
     "postcss-aspect-ratio-mini": {},
     // to edit target browsers: use "browserslist" field in package.json
     "postcss-write-svg": {
-      uft8: false
+      uft8: false,
     },
     "postcss-px-to-viewport": {
       viewportWidth: 750, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750
@@ -76,15 +56,15 @@ module.exports = {
       viewportUnit: "vw", // 指定需要转换成的视窗单位，建议使用vw
       selectorBlackList: [".ignore", ".hairlines"], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名
       minPixelValue: 1, // 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值
-      mediaQuery: false // 允许在媒体查询中转换`px`
+      mediaQuery: false, // 允许在媒体查询中转换`px`
     },
     "postcss-viewport-units": {},
     cssnano: {
       preset: "advanced",
       autoprefixer: false, // 和cssnext同样具有autoprefixer，保留一个
-      "postcss-zindex": false
-    }
-  }
+      "postcss-zindex": false,
+    },
+  },
 };
 ```
 
@@ -97,9 +77,9 @@ module.exports = {
 
 <!--使用viewport-units-buggyfill解决个别手机不支持vw-->
 <script>
-  window.onload = function() {
+  window.onload = function () {
     window.viewportUnitsBuggyfill.init({
-      hacks: window.viewportUnitsBuggyfillHacks
+      hacks: window.viewportUnitsBuggyfillHacks,
     });
   };
 </script>
@@ -130,9 +110,9 @@ module.exports = {
       selectorBlackList: [], //要忽略的选择器
       replace: true, //替换包含rems的规则，而不是添加fallback
       mediaQuery: false, //允许在媒体查询中转换px
-      minPixelValue: 2 //设置要替换的最小像素值
-    }
-  }
+      minPixelValue: 2, //设置要替换的最小像素值
+    },
+  },
 };
 ```
 
@@ -151,7 +131,7 @@ function setRem() {
 // 初始化
 setRem();
 // 改变窗口大小时重新设置 rem
-window.onresize = function() {
+window.onresize = function () {
   setRem();
 };
 ```
@@ -207,10 +187,10 @@ module.exports = {
         // as they're likely a resource and not a SPA route.
         // URLs containing a "?" character won't be blacklisted as they're likely
         // a route with query params (e.g. auth callbacks).
-        new RegExp("/[^/?]+\\.[^/]+$")
-      ]
-    }
-  }
+        new RegExp("/[^/?]+\\.[^/]+$"),
+      ],
+    },
+  },
 };
 ```
 
